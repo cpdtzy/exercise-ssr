@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {renderToString} from "react-dom/server";
 
 function Home() {
     return (
@@ -14,21 +13,4 @@ function Home() {
     );
 }
 
-const renderBody = content => {
-    return (
-        `<!DOCTYPE html>
-        <html lang="zh-CN">
-            <head>
-                <meta charset="utf-8">
-                <title>test</title>
-            </head>
-            <body>
-                ${content}
-            </body>
-        </html>`
-    )
-};
-
-const home = renderToString(<Home />);
-
-export default renderBody(home);
+export default Home;
