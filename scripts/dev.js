@@ -1,49 +1,15 @@
-import express from 'express';
+import {build} from 'esbuild';
+import * as Process from "process";
 
-const app = express();
-
+// TODO: 开发模式下，当前模式不利于调试
 // noinspection SpellCheckingInspection
-// serve({
-//     host: 'localhost',
-//     port: 4000,
-//     servedir: resolve('src/pages'),
-// }, {
-//     entryPoints: [resolve('src/pages/index.js')],
-//     bundle: true,
-//     minify: true,
-//     sourcemap: true,
-//     target: ['node10.4'],
-//     platform: 'node',
-//     outdir: 'src/pages/dist',
-// })
-//     .then(server => {
-//         const {host, port} = server;
-
-        // app.get('/', function (req, res) {
-        //     res.send(home);
-        // });
-        //
-        // const loaded = () => console.log(`localhost:3000`);
-        // app.listen(3000, loaded);
-    // });
-const renderBody = (content = 'Hello, world!') => {
-    return (
-        `<!DOCTYPE html>
-        <html lang="zh-CN">
-            <head>
-                <meta charset="utf-8">
-                <title>test</title>
-            </head>
-            <body>
-                ${content}
-            </body>
-        </html>`
-    )
-};
-
-app.get('/', function (req, res) {
-    res.send(renderBody());
-});
-
-const loaded = () => console.log(`localhost:3000`);
-app.listen(3000, loaded);
+build({
+    bundle: true,
+    entryPoints: ['src/server/server.js'],
+    platform: 'node',
+    target: ['node12'],
+    outfile: 'dist/build.js',
+})
+    .then(() => {
+        Process.exit(1);
+    });
