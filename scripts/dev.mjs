@@ -1,4 +1,5 @@
 import {build} from 'esbuild';
+import nodemon from 'nodemon';
 
 // noinspection SpellCheckingInspection
 build({
@@ -11,4 +12,7 @@ build({
 })
     .then((...r) => {
         console.log(r, 'success');
+        nodemon({
+            script: 'dist/build.js',
+        });
     });
