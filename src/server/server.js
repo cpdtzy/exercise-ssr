@@ -1,6 +1,6 @@
 import express from 'express';
 import * as React from 'react';
-import {renderToString} from "react-dom/server";
+import {renderToPipeableStream} from "react-dom/server";
 import Home from '../pages/Home.tsx';
 
 const app = express();
@@ -14,15 +14,27 @@ const renderBody = (content = 'Hello, world!') => {
                 <title>test</title>
             </head>
             <body>
-                ${content}
+                <div id="app">
+                    ${content}
+                </div>
             </body>
         </html>`
     )
 };
 
 app.get('/', function (req, res) {
-    const dom = renderToString(React.createElement(Home));
-    res.send(renderBody(dom));
+    const stream = renderToPipeableStream(
+        React.createElement(Home),
+        {
+            onShellReady() {
+                res.setHeader('Content-type', 'text/html');
+                stream.pipe(res);
+            },
+            onAllReady() {
+                res.end();
+            },
+        }
+    );
 });
 
 const loaded = () => console.log(`localhost:3000`);
