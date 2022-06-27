@@ -4,7 +4,7 @@ import * as Process from "process";
 // noinspection SpellCheckingInspection
 build({
     bundle: true,
-    entryPoints: ['src/server/server.js'],
+    entryPoints: ['src/clinet/index.jsx'],
     platform: 'node',
     target: ['node12'],
     outfile: 'dist/build.js',

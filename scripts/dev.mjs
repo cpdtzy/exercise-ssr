@@ -4,15 +4,18 @@ import nodemon from 'nodemon';
 // noinspection SpellCheckingInspection
 build({
     bundle: true,
-    entryPoints: ['src/server/server.js'],
+    entryPoints: [
+        'src/clinet/index.jsx',
+        'src/server/index.js',
+    ],
     watch: true,
     platform: 'node',
     target: ['node12'],
-    outfile: 'dist/build.js',
+    outdir: 'dist',
 })
     .then((...r) => {
         console.log(r, 'success');
         nodemon({
-            script: 'dist/build.js',
+            script: 'dist/server/index.js',
         });
     });
