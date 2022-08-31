@@ -1,7 +1,9 @@
 import express from 'express';
+import open from 'open';
 import * as React from 'react';
 import {renderToPipeableStream} from "react-dom/server";
 import * as Pages from '../pages/index.tsx';
+import * as Path from 'path';
 
 const app = express();
 
@@ -22,8 +24,10 @@ const renderBody = (content = 'Hello, world!') => {
     )
 };
 
+app.use('/dist', express.static(Path.join(__dirname, 'dist')))
 app.get('*', function (req, res) {
-    const name = req.originalUrl.slice(1);
+    const reqUrl = req.originalUrl.slice(1);
+    const name = reqUrl.length ? reqUrl : 'home';
     const templateName = name[0].toUpperCase() + name.slice(1);
     const Template  = Pages[templateName];
 
@@ -42,5 +46,9 @@ app.get('*', function (req, res) {
     );
 });
 
-const loaded = () => console.log(`localhost:3000`);
+const loaded = () => {
+    const url = 'localhost:3000';
+    console.log(url);
+    open(`http://${url}`);
+};
 app.listen(3000, loaded);
